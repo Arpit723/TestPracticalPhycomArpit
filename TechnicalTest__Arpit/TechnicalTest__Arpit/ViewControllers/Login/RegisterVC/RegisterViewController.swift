@@ -11,10 +11,15 @@ import FirebaseDatabase
 
 class RegisterViewController: UIViewController {
 
+    @IBOutlet weak var btnSubmit: UIButton!
+
+    @IBOutlet weak var btnSignOut: UIButton!
+
     @IBOutlet weak var txtPhoneNumber: UITextField!
     @IBOutlet weak var txtEmail: UITextField!
     @IBOutlet weak var txtName: UITextField!
     
+    var isComingFromList = false
     lazy var lableCountryCode = customize(UILabel()) {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.backgroundColor = .clear
@@ -36,7 +41,14 @@ class RegisterViewController: UIViewController {
 
         if isForRegistration {
             
-        } else {
+        } else if isComingFromList {
+            self.txtPhoneNumber.isEnabled = false
+            self.txtName.isEnabled = false
+            self.txtEmail.isEnabled = false
+            self.updateUI()
+            btnSubmit.isHidden = true
+            btnSignOut.isHidden = true
+        }else {
             self.txtPhoneNumber.isEnabled = false
             let phoneNumber = UserDefaults.standard.string(forKey: UserDefaultKeys.loggedInPhoneNumber.rawValue)
             self.loadUserData(phoneNumber: phoneNumber ?? "")

@@ -476,6 +476,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="uZU-jz-z5X"/>
                     <connections>
+                        <outlet property="btnSignOut" destination="ska-JD-uY5" id="d7Y-CL-Acj"/>
+                        <outlet property="btnSubmit" destination="jkh-ZK-BbZ" id="5B2-pE-ehn"/>
                         <outlet property="txtEmail" destination="bQU-oc-EtQ" id="qmt-dV-bms"/>
                         <outlet property="txtName" destination="XKR-hp-MFd" id="sJO-AC-Qnt"/>
                         <outlet property="txtPhoneNumber" destination="ElS-fV-Mkt" id="T8O-qo-nQK"/>

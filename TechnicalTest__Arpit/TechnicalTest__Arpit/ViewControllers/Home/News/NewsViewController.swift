@@ -26,14 +26,6 @@ class NewsViewController: UIViewController {
             self.newsViewModel.newsArray = articles
             self.updateUI(welcome: Welcome())
         }
-//            let posts =  RealmDBManager.shared.getObjectsFromDatabse()
-//            if posts.count == 0 {
-//                refresh()
-//            } else {
-//                self.postsViewModel.postsArray = posts
-//                self.postsViewModel.computeExistingStartAndEnd()
-//                self.updateUI(posts: posts)
-//            }
     }
     
 
@@ -44,20 +36,7 @@ class NewsViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableViewNews.addSubview(refreshControl)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-    func setUpUI() {
-        
-        
-    }
+   
 
 }
 
@@ -91,6 +70,7 @@ extension NewsViewController : UITableViewDelegate, UITableViewDataSource {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "NewsDetailViewController") as! NewsDetailViewController
         vc.newsDetail = self.newsViewModel.newsArray[indexPath.row]
+        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {

@@ -10,6 +10,11 @@ import UIKit
 import FirebaseCore
 import UserNotifications
 import FirebaseAuth
+import CoreLocation
+
+protocol LocationUpdateDelegate {
+    func locationUpdated()
+}
 
 let appDelegate = UIApplication.shared.delegate as? AppDelegate ?? AppDelegate()
 
@@ -19,12 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var window: UIWindow?
     
-
-    
+    var locationManager: CLLocationManager?
+    var currentLocation: CLLocation?
+    var locationUpdateDelegate: LocationUpdateDelegate?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         setUpPushNotification()
         FirebaseApp.configure()
+        setUpLocationManager()
         
         let isUserLoggedIn =  UserDefaults.standard.bool(forKey: UserDefaultKeys.isUserLoggedIn.rawValue)
         if isUserLoggedIn {

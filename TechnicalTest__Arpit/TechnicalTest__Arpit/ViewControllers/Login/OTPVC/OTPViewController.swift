@@ -18,16 +18,14 @@ class OTPViewController: UIViewController {
     @IBOutlet weak var pinView: SVPinView!
     var isCameFromRegister = false
     var loggedInUser: User?
-    
+    //MARK: View Controller Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "OTP Verification"
         self.setupOtpView()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
         // Do any additional setup after loading the view.
     }
-    
-    
     
     func setupOtpView() {
         
@@ -62,9 +60,6 @@ class OTPViewController: UIViewController {
             guard let self = self else {
                 return
             }
-            //MARK: - Verify OTP Code
-            ////            let (isCodeExpiredVar, _ ) = self?.isOTPExpired() ?? (true, 0)
-            //            if isCodeExpiredVar {
             let verificationID = UserDefaults.standard.string(forKey: "authVerificationID")
             Loader.show()
             let credential = PhoneAuthProvider.provider().credential(
@@ -75,8 +70,8 @@ class OTPViewController: UIViewController {
             if "123456" == pin {
             } else {
                 //                self?.pinView.shake()
-                self.pinView.clearPin(completionHandler: nil)
-                self.pinView.becomeFirstResponder()
+//                self.pinView.clearPin(completionHandler: nil)
+//                self.pinView.becomeFirstResponder()
             }
         }
         pinView.didChangeCallback = { pin in
@@ -86,21 +81,16 @@ class OTPViewController: UIViewController {
         
     }
     
+    //MARK: Firebase methods
     func firebaseSignIn(credential: PhoneAuthCredential)   {
         Auth.auth().signIn(with: credential  as AuthCredential) { authResult, error in
-            let isMFAEnabled = false
             Loader.hide()
             if let error = error {
                 Utility.showAlert(vc: self, title: "Error", message: "Invalid OTP.", buttons: ["OK"], buttonStyle: [.default], completion: { index in
-                    
                 })
-                
             } else {
-                var ref: DatabaseReference!
-                ref = Database.database().reference()
-                
                 if self.isCameFromRegister {
-                    self.isUserFound(completion: { found in
+                    self.isUserFound(completion: { found, autoId in
                         if found {
                             Utility.showAlert(title: "Error", message: "User with this phone number already exists.",completion: { index in
                                 self.navigationController?.popViewController(animated: true)
@@ -111,8 +101,10 @@ class OTPViewController: UIViewController {
                     })
                 } else {
                     
-                    self.isUserFound { found in
+                    self.isUserFound { found, autoId in
                         if found {
+                            let ref = Database.database().reference()
+                            ref.child("users").child("\(autoId)").updateChildValues(["liveLocation": ["lat": (appDelegate.currentLocation?.coordinate.latitude ?? 0.0),"long": (appDelegate.currentLocation?.coordinate.longitude ?? 0.0) ]])
                             UserDefaults.standard.setValue((self.loggedInUser?.mobileNumber ?? ""), forKey: UserDefaultKeys.loggedInPhoneNumber.rawValue)
                             self.goToHomeScreen()
                         } else {
@@ -133,13 +125,14 @@ class OTPViewController: UIViewController {
         
     }
     
-    func isUserFound(completion: @escaping ((Bool) -> ())) {
+    func isUserFound(completion: @escaping ((Bool, String) -> ())) {
         var ref: DatabaseReference!
         ref = Database.database().reference()
 
         ref.observeSingleEvent(of: .value, with: { snapshot in
             print("snapshot \(snapshot)")
             var isUserFound = false
+            var autoId = ""
             for rest in snapshot.children.allObjects as! [DataSnapshot] {
                 guard let restDict = rest.value as? [String: Any] else { return }
                 for key in restDict.keys {
@@ -147,6 +140,7 @@ class OTPViewController: UIViewController {
                     let enteredMobileNo = self.loggedInUser?.mobileNumber ?? ""
                     if mobile == enteredMobileNo {
                         isUserFound = true
+                        autoId = key
                         break
                     } else {
                         continue
@@ -155,9 +149,9 @@ class OTPViewController: UIViewController {
                 
             }
             if isUserFound {
-                completion(true)
+                completion(true, autoId)
             } else {
-                completion(false)
+                completion(false, "")
             }
         })
 
@@ -167,10 +161,12 @@ class OTPViewController: UIViewController {
         var ref: DatabaseReference!
         ref = Database.database().reference()
 
-        var userData = [String: String]()
+        var userData = [String: Any]()
         userData["name"] = self.loggedInUser?.name ?? ""
         userData["email"] = self.loggedInUser?.email ?? ""
         userData["mobileNumber"] = self.loggedInUser?.mobileNumber ?? ""
+        userData["liveLocation"] = ["lat": (appDelegate.currentLocation?.coordinate.latitude.magnitude ?? 0.0), "long": (appDelegate.currentLocation?.coordinate.longitude.magnitude ?? 0.0)]
+
         ref.child("users").childByAutoId().setValue(userData, withCompletionBlock: { error, _ in
             guard error == nil else {
                 print("error adding user \(error?.localizedDescription ?? "")")
@@ -178,7 +174,6 @@ class OTPViewController: UIViewController {
             }
             print("User added successfully")
         })
-        
         UserDefaults.standard.setValue((self.loggedInUser?.mobileNumber ?? ""), forKey: UserDefaultKeys.loggedInPhoneNumber.rawValue)
         self.goToHomeScreen()
 

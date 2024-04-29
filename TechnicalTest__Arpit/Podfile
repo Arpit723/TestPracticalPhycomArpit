@@ -12,7 +12,7 @@ target 'TechnicalTest__Arpit' do
   pod 'RealmSwift', '~>10'
   pod 'NVActivityIndicatorView'
 
-
+  pod 'FirebaseStorage'
   # Pods for TechnicalTest__Arpit
 
 end

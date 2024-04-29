@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		29254A97DA526F4CF14336F5 /* Pods_TechnicalTest__Arpit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EF47009ABBDB9733CD0F33 /* Pods_TechnicalTest__Arpit.framework */; };
+		6E017D0A2BDF677600CDD8B6 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E017D092BDF677600CDD8B6 /* ImagePicker.swift */; };
 		6E11A08F2BDD18AC00345B5A /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E11A08C2BDD18AC00345B5A /* APIService.swift */; };
 		6E11A0902BDD18AC00345B5A /* NewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E11A08E2BDD18AC00345B5A /* NewsModel.swift */; };
 		6E11A0922BDD19A400345B5A /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E11A0912BDD19A400345B5A /* NewsViewController.swift */; };
@@ -21,6 +22,7 @@
 		6E11A0AC2BDD282000345B5A /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E11A0AA2BDD281F00345B5A /* NewsTableViewCell.swift */; };
 		6E1350D02BDE0E3700A1ED81 /* MembersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1350CF2BDE0E3700A1ED81 /* MembersViewController.swift */; };
 		6E1350D42BDE1F6C00A1ED81 /* FirebaseUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1350D32BDE1F6C00A1ED81 /* FirebaseUtility.swift */; };
+		6E15B3182BDFA170006CD6AD /* AppDelegate+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E15B3172BDFA170006CD6AD /* AppDelegate+Location.swift */; };
 		6E56172F2BDE6510003397E6 /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E56172E2BDE6510003397E6 /* Loader.swift */; };
 		6E5617312BDE6962003397E6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6E5617302BDE6962003397E6 /* GoogleService-Info.plist */; };
 		6E566B8F2BDE4C73000155D0 /* NewsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E566B8D2BDE4B32000155D0 /* NewsWebViewController.swift */; };
@@ -42,6 +44,7 @@
 /* Begin PBXFileReference section */
 		3783DD3FAB62A9ECBB87AC20 /* Pods-TechnicalTest__Arpit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TechnicalTest__Arpit.release.xcconfig"; path = "Target Support Files/Pods-TechnicalTest__Arpit/Pods-TechnicalTest__Arpit.release.xcconfig"; sourceTree = "<group>"; };
 		6D749F7CEB7AA2194B1A9517 /* Pods-TechnicalTest__Arpit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TechnicalTest__Arpit.debug.xcconfig"; path = "Target Support Files/Pods-TechnicalTest__Arpit/Pods-TechnicalTest__Arpit.debug.xcconfig"; sourceTree = "<group>"; };
+		6E017D092BDF677600CDD8B6 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		6E11A08C2BDD18AC00345B5A /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		6E11A08E2BDD18AC00345B5A /* NewsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsModel.swift; sourceTree = "<group>"; };
 		6E11A0912BDD19A400345B5A /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +58,7 @@
 		6E11A0AA2BDD281F00345B5A /* NewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
 		6E1350CF2BDE0E3700A1ED81 /* MembersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewController.swift; sourceTree = "<group>"; };
 		6E1350D32BDE1F6C00A1ED81 /* FirebaseUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUtility.swift; sourceTree = "<group>"; };
+		6E15B3172BDFA170006CD6AD /* AppDelegate+Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+Location.swift"; sourceTree = "<group>"; };
 		6E56172E2BDE6510003397E6 /* Loader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
 		6E5617302BDE6962003397E6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6E566B8D2BDE4B32000155D0 /* NewsWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsWebViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +210,7 @@
 		6ED27DCB2BDCE65A0048967E /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				6E017D092BDF677600CDD8B6 /* ImagePicker.swift */,
 				6EEF70582BDEBC24006C1362 /* RealmDBManager.swift */,
 				6E56172D2BDE6510003397E6 /* Loader */,
 				6ED27DCC2BDCE6750048967E /* Utility.swift */,
@@ -249,6 +254,7 @@
 			children = (
 				6EDBDEF32BDCAE5800E0C36C /* AppDelegate.swift */,
 				6E11A09F2BDD1D6200345B5A /* AppDelegate+UI.swift */,
+				6E15B3172BDFA170006CD6AD /* AppDelegate+Location.swift */,
 				6EDBDF072BDCB53400E0C36C /* ViewControllers */,
 				6ED27DCB2BDCE65A0048967E /* Utility */,
 				6E11A08B2BDD18AC00345B5A /* WebService */,
@@ -422,6 +428,7 @@
 				6ED27DD92BDD09410048967E /* UIView+Constarints.swift in Sources */,
 				6E11A09E2BDD1CD500345B5A /* RegisterViewController.swift in Sources */,
 				6ED27DCD2BDCE6750048967E /* Utility.swift in Sources */,
+				6E15B3182BDFA170006CD6AD /* AppDelegate+Location.swift in Sources */,
 				6E56172F2BDE6510003397E6 /* Loader.swift in Sources */,
 				6EEF70592BDEBC24006C1362 /* RealmDBManager.swift in Sources */,
 				6E5884AB2BDE03B700B95464 /* User.swift in Sources */,
@@ -435,6 +442,7 @@
 				6ED27DDA2BDD09410048967E /* ContentScrollView.swift in Sources */,
 				6E11A08F2BDD18AC00345B5A /* APIService.swift in Sources */,
 				6E11A0A22BDD241300345B5A /* Constants.swift in Sources */,
+				6E017D0A2BDF677600CDD8B6 /* ImagePicker.swift in Sources */,
 				6EDBDEF42BDCAE5800E0C36C /* AppDelegate.swift in Sources */,
 				6E11A09D2BDD1CD500345B5A /* LoginViewController.swift in Sources */,
 			);
@@ -588,6 +596,8 @@
 				DEVELOPMENT_TEAM = 5G7NC8X3YU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TechnicalTest__Arpit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "App uses camera to take user's profile pic.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "App uses photo library to take user's profile pic.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -618,6 +628,8 @@
 				DEVELOPMENT_TEAM = 5G7NC8X3YU;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TechnicalTest__Arpit/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "App uses camera to take user's profile pic.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "App uses photo library to take user's profile pic.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

@@ -35,7 +35,10 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        appDelegate.locationManager?.startUpdatingLocation()
+    }
     func setUpUI() {
         txtPhoneNumber.leftView = lableCountryCode
         txtPhoneNumber.leftViewMode = .always
@@ -53,7 +56,6 @@ class LoginViewController: UIViewController {
         let phoneNumber = "+91" + (txtPhoneNumber.text ?? "")
         PhoneAuthProvider.provider()
             .verifyPhoneNumber(phoneNumber, uiDelegate: nil) { verificationID, error in
-//                ProgressHUD.dismiss()
                Loader.hide()
               if let error = error {
                   Utility.showAlert(vc: self, title: "Error", message: error.localizedDescription, buttons: ["OK"], buttonStyle: [.default], completion:  { index  in
@@ -62,7 +64,7 @@ class LoginViewController: UIViewController {
                 return
               }
                 UserDefaults.standard.set(verificationID, forKey: "authVerificationID")
-                let loggedInUser = User(userId: "1", name: "", email: "", mobileNumber: (self.txtPhoneNumber.text ?? ""))
+                let loggedInUser = User(userId: "1", name: "", email: "", mobileNumber: (self.txtPhoneNumber.text ?? ""),currentLocation: ["lat": 0.0, "long": 0.0])
                 let next = self.storyboard?.instantiateViewController(withIdentifier: "OTPViewController") as! OTPViewController
                 next.loggedInUser = loggedInUser
                 self.navigationController?.pushViewController(next, animated: true)
@@ -80,15 +82,14 @@ class LoginViewController: UIViewController {
 
 }
 
+//AMRK: Valdaitions
 extension  LoginViewController {
     
     func isValidate() -> (Bool, String){
-        
         let phoneNumber = self.txtPhoneNumber.text ?? ""
         if phoneNumber.count < 10 {
             return (false, "Please enter phone number of 10 digits.")
         }
         return (true, "")
-        
     }
 }

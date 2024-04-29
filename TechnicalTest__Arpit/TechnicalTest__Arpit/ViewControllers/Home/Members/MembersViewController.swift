@@ -14,59 +14,47 @@ import FirebaseCore
 class MembersViewController: UIViewController {
     @IBOutlet weak var tableViewMembers: UITableView!
     
-    var membersArray = [[String: String]]()
+    var membersArray = [[String: Any]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUPTableView()
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.title = "Members"
+        
+
+       
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadMembers()
+    }
+    
+    func loadMembers() {
         var ref: DatabaseReference!
         ref = Database.database().reference()
         Loader.show()
         ref.observeSingleEvent(of: .value, with: { snapshot in
 //            print("snapshot \(snapshot)")
             Loader.hide()
-
+            self.membersArray.removeAll()
             for rest in snapshot.children.allObjects as! [DataSnapshot] {
                 guard let restDict = rest.value as? [String: Any] else { continue }
                 for key in restDict.keys {
-                    let restDict = restDict[key] as? [String: String] ?? [String: String]()
+                    let restDict = restDict[key] as? [String: Any] ?? [String: Any]()
                     self.membersArray.append(restDict)
                 }
                 self.tableViewMembers.reloadData()
             }
         })
-
-//        ref.observeSingleEvent(of: .childChanged, with: { snapshot in
-//            print("snapshot \(snapshot)")
-//            self.membersArray.removeAll()
-//            for rest in snapshot.children.allObjects as! [DataSnapshot] {
-//                guard let restDict = rest.value as? [String: Any] else { continue }
-//                for key in restDict.keys {
-//                    let restDict = restDict[key] as? [String: String] ?? [String: String]()
-//                    self.membersArray.append(restDict)
-//                }
-//                self.tableViewMembers.reloadData()
-//            }
-//        })
-
-        // Do any additional setup after loading the view.
     }
     func setUPTableView() {
         tableViewMembers.estimatedRowHeight = 100.0
         // Do any additional setup after loading the view.
         tableViewMembers.register(UINib(nibName: "MembersTableViewCell", bundle: nil), forCellReuseIdentifier: "MembersTableViewCell")
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 //MARK: Table View Delegate and Data Source
@@ -89,11 +77,12 @@ extension MembersViewController : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "RegisterViewControllerForUpdate") as! RegisterViewController
-//        vc.loggedInUserInfo = self.membersArray[indexPath.row]
-//        vc.isComingFromList = true
-//        self.navigationController?.pushViewController(vc, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "RegisterViewControllerForUpdate") as! RegisterViewController
+        vc.loggedInUserInfo = self.membersArray[indexPath.row]
+        vc.isComingFromList = true
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
 
     }
     

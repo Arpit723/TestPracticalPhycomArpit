@@ -11,7 +11,7 @@ class MembersTableViewCell: UITableViewCell {
     @IBOutlet weak var lblEmail: UILabel!
     @IBOutlet weak var lblMobile: UILabel!
     @IBOutlet weak var lblName: UILabel!
-    var memberInfo: [String:String]?
+    var memberInfo: [String:Any]?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,7 +20,7 @@ class MembersTableViewCell: UITableViewCell {
 
     }
 
-    func setUpMemberData(memberInfo: [String:String]) {
+    func setUpMemberData(memberInfo: [String:Any]) {
         self.memberInfo = memberInfo
         self.lblMobile.text = memberInfo["mobileNumber"] as? String ?? ""
         self.lblName.text = memberInfo["name"] as? String ?? ""

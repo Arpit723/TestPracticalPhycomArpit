@@ -42,5 +42,8 @@ extension NewsWebViewController: WKNavigationDelegate {
         Loader.hide()
 
     }
-    
+    func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+//        Loader.hide()
+    }
+  
 }

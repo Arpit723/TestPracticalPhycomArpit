@@ -100,48 +100,27 @@ class OTPViewController: UIViewController {
                 ref = Database.database().reference()
                 
                 if self.isCameFromRegister {
-                    let user = Auth.auth().currentUser
-                    var userData = [String: String]()
-                    userData["name"] = self.loggedInUser?.name ?? ""
-                    userData["email"] = self.loggedInUser?.email ?? ""
-                    userData["mobileNumber"] = self.loggedInUser?.mobileNumber ?? ""
-                    ref.child("users").childByAutoId().setValue(userData, withCompletionBlock: { error, _ in
-                        guard error == nil else {
-                            print("error adding user \(error?.localizedDescription ?? "")")
-                            return
+                    self.isUserFound(completion: { found in
+                        if found {
+                            Utility.showAlert(title: "Error", message: "User with this phone number already exists.",completion: { index in
+                                self.navigationController?.popViewController(animated: true)
+                            })
+                        } else {
+                            self.register()
                         }
-                        print("User added successfully")
                     })
-                    UserDefaults.standard.setValue((self.loggedInUser?.mobileNumber ?? ""), forKey: UserDefaultKeys.loggedInPhoneNumber.rawValue)
-                    self.goToHomeScreen()
                 } else {
-                    ref.observeSingleEvent(of: .value, with: { snapshot in
-                        print("snapshot \(snapshot)")
-                        var isUserFound = false
-                        for rest in snapshot.children.allObjects as! [DataSnapshot] {
-                            guard let restDict = rest.value as? [String: Any] else { continue }
-                            for key in restDict.keys {
-                                let mobile = (restDict[key] as? [String: Any])?["mobileNumber"] as? String ?? ""
-                                let enteredMobileNo = self.loggedInUser?.mobileNumber ?? ""
-                                if mobile == enteredMobileNo {
-                                    UserDefaults.standard.setValue((self.loggedInUser?.mobileNumber ?? ""), forKey: UserDefaultKeys.loggedInPhoneNumber.rawValue)
-                                    self.goToHomeScreen()
-                                    isUserFound = true
-                                    break
-                                } else {
-                                    continue
-                                }
-                            }
-                            if !isUserFound {
-                                Utility.showAlert(title: "Invalid phone number.", message: "Soory, no user is found with entered phone number.",completion: { index in
-                                    self.navigationController?.popViewController(animated: true)
-                                })
-                            }
-
-                        }
-                    })
                     
-                                           
+                    self.isUserFound { found in
+                        if found {
+                            UserDefaults.standard.setValue((self.loggedInUser?.mobileNumber ?? ""), forKey: UserDefaultKeys.loggedInPhoneNumber.rawValue)
+                            self.goToHomeScreen()
+                        } else {
+                            Utility.showAlert(title: "Invalid phone number.", message: "Soory, no user is found with entered phone number.",completion: { index in
+                                self.navigationController?.popViewController(animated: true)
+                            })
+                        }
+                    }
                 }
                 
                 return
@@ -151,10 +130,59 @@ class OTPViewController: UIViewController {
         }
         // User is signed in
         // ...
-        print("User is signed in")
         
     }
     
+    func isUserFound(completion: @escaping ((Bool) -> ())) {
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+
+        ref.observeSingleEvent(of: .value, with: { snapshot in
+            print("snapshot \(snapshot)")
+            var isUserFound = false
+            for rest in snapshot.children.allObjects as! [DataSnapshot] {
+                guard let restDict = rest.value as? [String: Any] else { return }
+                for key in restDict.keys {
+                    let mobile = (restDict[key] as? [String: Any])?["mobileNumber"] as? String ?? ""
+                    let enteredMobileNo = self.loggedInUser?.mobileNumber ?? ""
+                    if mobile == enteredMobileNo {
+                        isUserFound = true
+                        break
+                    } else {
+                        continue
+                    }
+                }
+                
+            }
+            if isUserFound {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        })
+
+    }
+    
+    func register() {
+        var ref: DatabaseReference!
+        ref = Database.database().reference()
+
+        var userData = [String: String]()
+        userData["name"] = self.loggedInUser?.name ?? ""
+        userData["email"] = self.loggedInUser?.email ?? ""
+        userData["mobileNumber"] = self.loggedInUser?.mobileNumber ?? ""
+        ref.child("users").childByAutoId().setValue(userData, withCompletionBlock: { error, _ in
+            guard error == nil else {
+                print("error adding user \(error?.localizedDescription ?? "")")
+                return
+            }
+            print("User added successfully")
+        })
+        
+        UserDefaults.standard.setValue((self.loggedInUser?.mobileNumber ?? ""), forKey: UserDefaultKeys.loggedInPhoneNumber.rawValue)
+        self.goToHomeScreen()
+
+    }
     func goToHomeScreen() {
         UserDefaults.standard.setValue(true, forKey: UserDefaultKeys.isUserLoggedIn.rawValue)
         let tabBarController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController

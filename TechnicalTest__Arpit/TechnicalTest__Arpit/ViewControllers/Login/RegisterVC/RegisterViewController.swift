@@ -96,7 +96,12 @@ class RegisterViewController: UIViewController {
 
     @IBAction func btnSubmitClicked(_ sender: Any) {
             // Step 1: Add +91 country code by default
+        let valdiation = isValidate()
         
+        guard valdiation.0 else {
+            Utility.showAlert(title: "Error", message: valdiation.1)
+            return
+        }
         if isForRegistration {
             Loader.show()
             let phoneNumber = "+91" + (txtPhoneNumber.text ?? "")
@@ -157,4 +162,30 @@ class RegisterViewController: UIViewController {
     }
     */
 
+}
+
+
+extension  RegisterViewController {
+    
+    func isValidate() -> (Bool, String){
+
+        let name = self.txtName.text ?? ""
+        if name.count == 0 {
+            return (false, "Please enter your name.")
+        }
+
+        let email = self.txtEmail.text ?? ""
+        if email.count == 0 {
+            return (false, "Please enter your email.")
+        } else if !Utility.isValidEmail(email) {
+            return (false, "Please enter valid email.")
+        }
+
+        let phoneNumber = self.txtPhoneNumber.text ?? ""
+        if phoneNumber.count < 10 {
+            return (false, "Please enter phone number of 10 digits.")
+        }
+        
+        return (true, "")
+    }
 }

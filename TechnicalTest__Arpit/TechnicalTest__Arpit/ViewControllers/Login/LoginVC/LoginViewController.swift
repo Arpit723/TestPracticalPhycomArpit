@@ -42,6 +42,13 @@ class LoginViewController: UIViewController {
     }
     //MARK: Button Click
     @IBAction func btnLoginClicked(_ sender: Any) {
+        
+        let valdiation = isValidate()
+        
+        guard valdiation.0 else {
+            Utility.showAlert(title: "Error", message: valdiation.1)
+            return
+        }
         Loader.show()
         let phoneNumber = "+91" + (txtPhoneNumber.text ?? "")
         PhoneAuthProvider.provider()
@@ -69,14 +76,19 @@ class LoginViewController: UIViewController {
         next.isForRegistration = true
         self.navigationController?.pushViewController(next, animated: true)
     }
-    /*
-    // MARK: - Navigation
+    
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+}
+
+extension  LoginViewController {
+    
+    func isValidate() -> (Bool, String){
+        
+        let phoneNumber = self.txtPhoneNumber.text ?? ""
+        if phoneNumber.count < 10 {
+            return (false, "Please enter phone number of 10 digits.")
+        }
+        return (true, "")
+        
     }
-    */
-
 }
